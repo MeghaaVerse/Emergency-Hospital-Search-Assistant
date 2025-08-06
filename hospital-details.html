@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hospital Details</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+      color: #333;
+      text-align: center;
+    }
+    .container {
+      max-width: 800px;
+      margin: 50px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .button {
+      padding: 10px 20px;
+      background: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.3s ease;
+    }
+    .button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="hospital-details"></div>
+  <button class="button" onclick="window.history.back()">⬅️ Go Back</button>
+
+  <script>
+    const hospitals = [
+      {
+        name: "City Hospital",
+        disease: "Cardiology",
+        category: "Nearby",
+        specialists: ["Cardiologist"],
+        doctor: "Dr. John Doe",
+        phone: "123-456-7890",
+        email: "info@cityhospital.com",
+        landmark: "Near Central Park",
+        insurance: ["Apollo Health Insurance"],
+        address: "123 City Road, Downtown",
+        pincode: "12345",
+        website: "https://cityhospital.com",
+        googleMap: "https://goo.gl/maps/example1"
+      },
+      {
+        name: "District Health Care",
+        disease: "Neurology",
+        category: "District",
+        specialists: ["Neurologist"],
+        doctor: "Dr. Jane Smith",
+        phone: "987-654-3210",
+        email: "contact@districthealth.com",
+        landmark: "Main Street",
+        insurance: ["Star Health"],
+        address: "456 District Avenue",
+        pincode: "54321",
+        website: "https://districthealth.com",
+        googleMap: "https://goo.gl/maps/example2"
+      }
+    ];
+
+    // Get the hospital name from the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const hospitalName = urlParams.get('hospital');
+
+    // Find and display the hospital details
+    const hospital = hospitals.find(h => h.name === hospitalName);
+    if (hospital) {
+      document.getElementById('hospital-details').innerHTML = `
+        <h1>${hospital.name}</h1>
+        <p><strong>Specialists:</strong> ${hospital.specialists.join(", ")}</p>
+        <p><strong>Doctor:</strong> ${hospital.doctor}</p>
+        <p><strong>Phone:</strong> ${hospital.phone}</p>
+        <p><strong>Email:</strong> ${hospital.email}</p>
+        <p><strong>Landmark:</strong> ${hospital.landmark}</p>
+        <p><strong>Insurance Accepted:</strong> ${hospital.insurance.join(", ")}</p>
+        <p><strong>Address:</strong> ${hospital.address}</p>
+        <p><strong>Pincode:</strong> ${hospital.pincode}</p>
+        <p><strong>Website:</strong> <a href="${hospital.website}" target="_blank">${hospital.website}</a></p>
+        <button class="button" onclick="window.open('${hospital.googleMap}', '_blank')">View on Google Maps</button>
+      `;
+    } else {
+      document.getElementById('hospital-details').textContent = "Hospital not found.";
+    }
+  </script>
+</body>
+</html>

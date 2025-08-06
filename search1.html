@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search Hospitals</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <h1>Hospitals for <span id="selected-disease"></span></h1>
+
+    <div id="hospital-categories">
+      <h3>Select a category to filter hospitals:</h3>
+
+      <!-- Disease filter -->
+      <div>
+        <label for="disease">Select Disease:</label>
+        <select id="disease">
+          <option value="" disabled selected>Select a disease</option>
+          <option value="Cancer">Cancer</option>
+          <option value="Diabetes">Diabetes</option>
+          <option value="COVID-19">COVID-19</option>
+        </select>
+      </div>
+
+      <!-- Country filter -->
+      <div>
+        <label for="country">Country:</label>
+        <select id="country">
+          <option value="" disabled selected>Select a country</option>
+        </select>
+      </div>
+
+      <!-- State filter -->
+      <div>
+        <label for="state">State:</label>
+        <select id="state">
+          <option value="" disabled selected>Select a state</option>
+        </select>
+      </div>
+
+      <!-- District filter -->
+      <div>
+        <label for="district">District:</label>
+        <select id="district">
+          <option value="" disabled selected>Select a district</option>
+        </select>
+      </div>
+
+      <div id="hospital-list"></div>
+    </div>
+  </div>
+
+  <script>
+    // Locations object with countries, states, districts, hospitals, and diseases
+    const locations = {
+      countries: {
+        India: {
+          states: {
+            Karnataka: {
+              districts: {
+                "Bangalore Urban": {
+                  hospitals: [
+                    { name: "Apollo Hospital", diseases: ["Cancer", "Diabetes"] },
+                    { name: "Fortis Hospital", diseases: ["COVID-19", "Cancer"] },
+                    { name: "Manipal Hospital", diseases: ["Diabetes"] }
+                  ]
+                },
+                Mysore: {
+                  hospitals: [
+                    { name: "JSS Hospital", diseases: ["Cancer"] },
+                    { name: "Apollo BGS Hospital", diseases: ["COVID-19"] }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        USA: {
+          states: {
+            California: {
+              districts: {
+                "Los Angeles": {
+                  hospitals: [
+                    { name: "Cedars-Sinai Medical Center", diseases: ["Cancer", "Diabetes"] },
+                    { name: "UCLA Medical Center", diseases: ["COVID-19", "Diabetes"] }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    };
+
+    // Get the disease name from the URL or query parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const selectedDisease = urlParams.get('disease');
+    document.getElementById('selected-disease').textContent = selectedDisease;
+
+    // Populate the country dropdown
+    function populateCountries() {
+      const countrySelect = document.getElementById("country");
+      Object.keys(locations.countries).forEach((country) => {
+        const option = document.createElement("option");
+        option.value = country;
+        option.textContent = country;
+        countrySelect.appendChild(option);
+      });
+    }
+
+    // Populate states based on selected country
+    function populateStates() {
+      const stateSelect = document.getElementById("state");
+      const districtSelect = document.getElementById("district");
+      stateSelect.innerHTML = '<option value="" disabled selected>Select a state</option>';
+      districtSelect.innerHTML = '<option value="" disabled selected>Select a district</option>';
+
+      const country = document.getElementById("country").value;
+      if (locations.countries[country]) {
+        Object.keys(locations.countries[country].states).forEach((state) => {
+          const option = document.createElement("option");
+          option.value = state;
+          option.textContent = state;
+          stateSelect.appendChild(option);
+        });
+      }
+    }
+
+    // Populate districts based on selected state
+    function populateDistricts() {
+      const districtSelect = document.getElementById("district");
+      districtSelect.innerHTML = '<option value="" disabled selected>Select a district</option>';
+
+      const country = document.getElementById("country").value;
+      const state = document.getElementById("state").value;
+      if (locations.countries[country]?.states[state]?.districts) {
+        Object.keys(locations.countries[country].states[state].districts).forEach((district) => {
+          const option = document.createElement("option");
+          option.value = district;
+          option.textContent = district;
+          districtSelect.appendChild(option);
+        });
+      }
+    }
+
+    // Display hospitals based on the selected disease, country, state, and district
+    function displayHospitals() {
+      const hospitalsList = document.getElementById("hospital-list");
+      hospitalsList.innerHTML = "";
+
+      const country = document.getElementById("country").value;
+      const state = document.getElementById("state").value;
+      const district = document.getElementById("district").value;
+      const disease = document.getElementById("disease").value;
+
+      if (!country || !state || !district || !disease) {
+        hospitalsList.innerHTML = "<p>Please select all filters to view hospitals.</p>";
+        return;
+      }
+
+      // Filter hospitals based on the selected disease and location
+      const hospitals = locations.countries[country]?.states[state]?.districts[district]?.hospitals || [];
+
+      const filteredHospitals = hospitals.filter(hospital => hospital.diseases.includes(disease));
+
+      if (filteredHospitals.length === 0) {
+        hospitalsList.innerHTML = "<p>No hospitals found for the selected disease in this location.</p>";
+      } else {
+        filteredHospitals.forEach((hospital) => {
+          const listItem = document.createElement("div");
+          listItem.textContent = hospital.name;
+          hospitalsList.appendChild(listItem);
+        });
+      }
+    }
+
+    // Initialize everything
+    window.onload = () => {
+      populateCountries();
+
+      // Event listeners to handle filtering
+      document.getElementById("country").addEventListener("change", populateStates);
+      document.getElementById("state").addEventListener("change", populateDistricts);
+      document.getElementById("district").addEventListener("change", displayHospitals);
+      document.getElementById("disease").addEventListener("change", displayHospitals);
+    };
+  </script>
+</body>
+</html>

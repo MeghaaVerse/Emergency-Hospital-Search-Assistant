@@ -1,0 +1,64 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 20px;
+  }
+  
+  h1 {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .dropdown-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  label {
+    font-weight: bold;
+  }
+  
+  select {
+    width: 200px;
+    padding: 5px;
+    font-size: 16px;
+    margin-top:5px;
+  }
+  #hospital-list {
+    margin-top: 30px;
+  }
+  
+  #hospitals {
+    list-style: none;
+    padding: 0;
+  }
+  
+  #hospitals li {
+    margin: 10px 0;
+    background: #f4f4f4;
+    padding: 10px;
+    border: 1px solid #ddd;
+  }
+  #hospital-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  .hospital-btn {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .hospital-btn:hover {
+    background-color: #0056b3;
+  }

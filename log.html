@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<!-- saved from url=(0030)http://127.0.0.1:5500/log.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Emergency Hospital Search Assistant</title>
+  <style>
+    /* Basic Styling */
+    body {
+      font-family: Arial, sans-serif;
+      color: #01060e;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+/* root color  */
+:root{
+  --blue:#0188df;
+  --black:#444d53;
+  --wight:#fff;
+}
+
+/* custom css  */
+*{
+  font-family: "Roboto", sans-serif;
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  text-transform: capitalize;
+  outline: none;
+  box-sizing: border-box;
+  transition: all linear .2s;
+}
+
+html{
+  font-size: 62.5%;
+  overflow-x: hidden;
+}
+header{
+    width: 96%;
+    
+    position:fixed;
+    top: 2rem;
+    left: 50%;
+    transform: translate(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    z-index: 1000;
+  }
+  
+  /* logo name  */
+  header a{
+    color: var(--black);
+  }
+  
+  header a:hover{
+    color: var(--blue);
+  }
+  
+  header .logo{
+    font-size: 3rem;
+  }
+  
+  header .logo span{
+    color: var(--blue);
+  }
+  header .navbar ul{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    list-style: none;
+  }
+  
+  header .navbar ul li{
+    margin: 0 1rem;
+  }
+  
+  header .navbar ul li a{
+    font-size: 2rem;
+    color: var(--black);
+  }
+  
+  header .navbar ul li a:hover{
+    color: var(--blue);
+  }
+  
+  header .fa-bars{
+    font-size: 3rem;
+    color: var(--blue);
+    cursor: pointer;
+    display: none;
+  }
+    .container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      background-image: url("temp.jpg");
+      background-position: center;
+      background-size: cover;
+      flex-direction: column;
+
+    }
+    .form-card, .profile-card {
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      max-width: 500px;
+      width: 100%;
+    }
+    .card, .hospital-card {
+      width: 320px;            /* Wider card */
+      height: auto;   
+      background: lightblue;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      transition: transform 0.2s ease-in-out;
+    }
+    .card:hover,.hospital-card:hover{
+      background-color: #f1f5f9;
+      transform:scale(1.05);
+    }
+    .card img {
+  width: 100%;
+  height: 200px;           
+  object-fit: cover;
+}
+.card-info {
+  padding: 15px;
+  font-size: 1.2rem;
+  text-align: left;
+}
+
+.card-info h3 {
+  font-size: 1.6rem;
+  margin-bottom: 10px;
+}
+
+.card-info p {
+  font-size: 1.1rem;
+  color: #333;
+}
+    form label, form input, form select, form textarea {
+      display: block;
+      margin: 0.5rem 0;
+    }
+    button {
+      background-color: #3b82f6;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      border-radius: 3px;
+    }
+    button:hover {
+      background-color: #2563eb;
+    }
+    .hidden {
+      display: none;
+    }
+.disease-card {
+  background: #ffffff;
+  padding: 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  margin: 1rem;
+  width: 320px; /* Make card wider */
+  min-height: 500px; /* More height for description */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.disease-card:hover {
+  transform: scale(1.05);
+}
+
+/* Image inside the card */
+.disease-card img {
+  width: 100%;
+  height: 200px; /* Adjust height for better visibility */
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+/* Text content inside the card */
+.disease-card .card-info {
+  margin-top: 10px;
+  padding: 0.5rem;
+  text-align: left;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.disease-card .card-info h3 {
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.disease-card .card-info p {
+  font-size: 1.1rem;
+  color: #333;
+  line-height: 1.4;
+}
+
+    .hospital-category {
+      margin-top: 1rem;
+    }
+    .hospital-list {
+      margin: 0.5rem 0;
+    }
+    .radio-group{
+      margin: 1rem 0;
+    }
+  
+    
+    /* About Section Styles */
+    .about-section {
+      background-color: #f1f1f1;
+      padding: 20px;
+      margin-top: 20px;
+      border: 1px solid #ccc;
+    }
+
+    /* Style for the card container */
+#card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px; /* Space between cards */
+  justify-content: center; /* Center the cards */
+}
+
+
+/* Style for individual cards */
+.card {
+  width: 200px; /* Adjust the width */
+  height: 250px; /* Adjust the height */
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  text-align: center;
+  background-color: #fff;
+  transition: transform 0.3s, box-shadow 0.3s; /* Add hover effect */
+}
+
+/* Card hover effect */
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Style for card images */
+.card img {
+  width: 100%;
+  height: 150px; /* Adjust height */
+  object-fit: cover; /* Ensure the image fits well */
+}
+
+/* Style for card information */
+.card-info {
+  padding: 10px;
+}
+
+.card-info h3 {
+  font-size: 18px; /* Adjust font size */
+  margin: 10px 0;
+}
+
+.card-info p {
+  font-size: 14px; /* Adjust font size */
+  color: #666;
+}
+    
+
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <header>
+    <a href="http://127.0.0.1:5500/log.html#" class="logo"><span>E</span>mergency <span>H</span>ospital <span>S</span>earch <span>A</span>ssistant</a>
+
+    <!-- navbar link  -->
+    <nav class="navbar">
+        <ul>
+
+            <li><a onclick="showLogin()">Login</a></li>
+         
+            <li><a href="mini.html">Home</a></li>
+            <li><a href="mini.html">About</a></li>
+       
+            <li><a onclick="handleLogout()">Logout</a></li>
+
+        </ul>
+    </nav>
+
+    <div class="fas fa-bars"></div>
+
+</header>
+
+  <!-- Main Content -->
+  <div id="app" class="container">
+    <div id="aboutSection" class="about-section" style="display:none;">
+  <h2>About Us</h2>
+  <p>Welcome to our emergency hospital assistance platform. We are dedicated to helping you find the nearest hospitals based on your location and medical needs. Our platform provides detailed hospital information, including facilities, specialists, and contact details.</p>
+</div>
+
+
+  <script>
+    let userProfile = null;
+     // Store user profile
+    
+    // Mock disease and hospital data
+    const diseases = [
+  {
+    name: "Heart Attack",
+    image: "HeartAttack.jpeg", // Replace with actual image URLs
+    specialist: "Cardiologist",
+    description: "A Cardiologist specializes in diagnosing and treating heart conditions like heart attacks.",
+  },
+  {
+    name: "Diabetes",
+    image: "diabetes.jpeg",
+    specialist: "Endocrinologist",
+    description: "An Endocrinologist focuses on managing diabetes and other hormonal disorders.",
+  },
+  {
+    name: "Asthma",
+    image: "asthma.jpeg",
+    specialist: "Pulmonologist",
+    description: "A Pulmonologist treats respiratory diseases, including asthma.",
+  },
+  {
+    name: "Cancer",
+    image: "cancer.jpeg",
+    specialist: "Oncologist",
+    description: "An Oncologist is responsible for treating various types of cancer.",
+  },
+  // Add more diseases here
+];
+
+
+    const hospitals = [
+      {
+        name: "City Hospital",
+        disease: "Cardiology",
+        category: "Nearby",
+        specialists: ["Cardiologist"],
+        doctor: "Dr. John Doe",
+        phone: "123-456-7890",
+        email: "info@cityhospital.com",
+        landmark: "Near Central Park",
+        insurance: ["Apollo Health Insurance"],
+        address: "123 City Road, Downtown",
+        pincode: "12345",
+        website: "https://cityhospital.com",
+        googleMap: "https://goo.gl/maps/example1"
+      },
+
+      {
+        name: "District Health Care",
+        disease: "Neurology",
+        category: "District",
+        specialists: ["Neurologist"],
+        doctor: "Dr. Jane Smith",
+        phone: "987-654-3210",
+        email: "contact@districthealth.com",
+        landmark: "Main Street",
+        insurance: ["Star Health"],
+        address: "456 District Avenue",
+        pincode: "54321",
+        website: "https://districthealth.com",
+        googleMap: "https://goo.gl/maps/example2"
+      },
+      // Add more hospitals as needed
+    ];
+
+    const users={};
+    // Function to show the login page
+    function showLogin() {
+      document.getElementById('app').innerHTML = `
+        <div class="form-card">
+          <h1>Login</h1>
+          <form id="login-form" onsubmit="handleLogin(event)">
+            <label for="username">Username:</label>
+            <input type="text" id="username" placeholder="Enter your username" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" placeholder="Enter your password" required>
+
+            <button type="submit">Login</button>
+          </form>
+          <p>Don't have an account? <a href="#" onclick="showCreateAccount()">Create Account</a></p>
+        </div>
+      `;
+    
+    }
+
+        // Function to show the Create Account page (Profile Creation)
+        function showCreateAccount() {
+      document.getElementById('app').innerHTML = `
+        <div class="form-card">
+          <h1>Create Account</h1>
+          <form id="create-account-form" onsubmit="handleCreateAccount(event)">
+            <label for="full-name">Full Name:</label>
+            <input type="text" id="full-name" placeholder="Enter your full name" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" placeholder="Enter your email" required>
+
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" placeholder="Enter your phone number" required>
+
+            <label for="location">Location:</label>
+            <input type="text" id="location" placeholder="Enter your location" required>
+
+            <label for="health-condition">Health Conditions (Optional):</label>
+            <input type="text" id="health-condition" placeholder="Enter any health conditions">
+
+            <label for="allergies">Allergies (Optional):</label>
+            <input type="text" id="allergies" placeholder="Enter any allergies">
+
+            <label for="blood-group">Blood Group:</label>
+            <select id="blood-group">
+              <option value="A+">A+</option>
+              <option value="A-">A-</option>
+              <option value="B+">B+</option>
+              <option value="B-">B-</option>
+              <option value="O+">O+</option>
+              <option value="O-">O-</option>
+              <option value="AB+">AB+</option>
+              <option value="AB-">AB-</option>
+            </select>
+
+            <label for="insurance">Insurance Provider:</label>
+            <input type="text" id="insurance" placeholder="Enter your insurance provider">
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" placeholder="Create your password" required>
+
+            <label for="confirm-password">Confirm Password:</label>
+            <input type="password" id="confirm-password" placeholder="Confirm your password" required>
+
+            <button type="submit">Create Account</button>
+          </form>
+        </div>
+      `;
+    }
+
+    window.onload = function () {
+  // Check if user is already logged in
+  const user = JSON.parse(localStorage.getItem('user'));
+  if (user && user.loggedIn) {
+    showDashboard();  // You can define this to show main content
+  } else {
+    showLogin();  // Show login by default
+  }
+};
+// Function to handle login
+    function handleLogin(event) {
+      event.preventDefault();
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      // Here you would authenticate the user, for example with an API call
+      // If valid, proceed to user profile
+     
+        userProfile = { username, diseases };
+        alert("Login successful!");
+       
+        showDiseaseCards();    
+        fetch("specialist1.html")
+    }
+
+      
+    //showProfile function to display the About Section
+    function showProfile() {
+      // Get the About section by its ID
+      const aboutSection = document.getElementById('aboutSection');
+    
+      // Toggle the display property
+      if (aboutSection.style.display === "none" || aboutSection.style.display === "") {
+        aboutSection.style.display = "block"; // Show the About section
+      } else {
+        aboutSection.style.display = "none"; // Hide the About section
+      }
+    }
+    // Function to show the home page
+    function showHome() {
+      document.getElementById('app').innerHTML = `
+        <h1>Welcome to Emergency Hospital Search Assistant</h1>
+        <p>Your trusted platform for finding nearby hospitals and booking appointments.</p>
+      `;
+    }
+    function showDiseaseCards() {
+      // Ensure the app container is cleared and populated
+      const appContainer = document.getElementById('app');
+      appContainer.innerHTML = ''; // Clear existing content
+    
+      // Check if the user is logged in
+      if (userProfile) {
+        // Show the welcome message
+        appContainer.innerHTML = `
+          <h1>Welcome, ${userProfile.username}</h1>
+          <p>Select a disease to view hospitals:</p>
+        `;
+    
+        // Create the card container
+        const cardContainer = document.createElement("div");
+        cardContainer.id = "card-container";
+    
+        diseases.forEach((disease) => {
+          const card = document.createElement("div");
+          card.className = "card";
+    
+          // Add event listener to redirect to the search page with the disease name
+          card.addEventListener("click", () => {
+               selectDisease(disease.name);
+            
+          });
+    
+          // Add content to the card
+          card.innerHTML = `
+            <img src="${disease.image}" alt="${disease.name}">
+            <div class="card-info">
+              <h3>${disease.name}</h3>
+              <p>${disease.description}</p>
+            </div>
+          `;
+    
+          cardContainer.appendChild(card);
+        });
+    
+        // Append the card container to the app
+        appContainer.appendChild(cardContainer);
+      } else {
+        appContainer.innerHTML = '<p>Please log in to see the content.</p>';
+      }
+    }
+    
+    // Call the loginUser function to simulate logging in
+    // This would be triggered by your login form or API call
+    loginUser('JohnDoe', 'password123');
+   
+  // Show categories after selecting a disease
+    function selectDisease(diseaseName) {
+
+     
+        window.location.href = `search.html?disease=${encodeURIComponent(diseaseName)}`;
+        
+      
+    }
+
+    
+      // Logout functionality
+    function handleLogout() {
+      userProfile = null;
+      alert("Logged out successfully.");
+      showLogin();
+    }
+
+    // Default: Load login page
+    showLogin();
+    
+  </script>
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+  
+</script>
+
+
+</body>
+</html>
