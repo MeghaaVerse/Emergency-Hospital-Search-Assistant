@@ -67,7 +67,7 @@ EmergencyHospitalSearchAssistant/
 
 1. Clone the repo:
    ```bash
-   git clone https://github.com/your-username/EmergencyHospitalSearchAssistant.git
+   git clone https://github.com/MeghaaVerse/Emergency-Hospital-Search-Assistant.git
    ```
 2. Navigate to the project folder and open `mini.html` in your browser.
 
